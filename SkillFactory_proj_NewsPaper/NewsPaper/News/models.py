@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
 
 from .resources import CATEGORY_TYPE
 
@@ -20,6 +21,9 @@ class Author(models.Model):
 
         self.author_rating = p_rat * 3 + c_rat
         self.save()
+
+    def __str__(self):
+        return self.author_user.username.title()
 
 
 class Category(models.Model):
@@ -51,6 +55,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.content_title} {self.date_create} {self.content_text}'
+
+    def get_absolute_url(self):
+        return reverse('post_details', args=[str(self.id)])
 
 
 class PostCategory(models.Model):

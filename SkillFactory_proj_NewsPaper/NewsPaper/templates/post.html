@@ -6,8 +6,9 @@
 Post
 {% endblock title %}
 
+
 {% block content %}
     <h1>{{ post.content_title|censor }}</h1><br>
     <h3>{{ post.content_text|censor }}</h3><br>
     <h5>{{ post.date_create|date:'d M Y' }}</h5><br>
-{% endblock content %}
+{% endblock content %}\

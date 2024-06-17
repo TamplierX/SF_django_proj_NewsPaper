@@ -4,12 +4,19 @@
 {% load custom_tags %}
 
 {% block title %}
-News
+Search
 {% endblock title %}
 
 {% block content %}
-    <h1>Все статьи</h1>
+    <h1>Поиск по: </h1>
 
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+
+    <hr>
+    <h3>Результаты поиска: </h3>
     {% if posts %}
         <table>
            <tr>
@@ -26,7 +33,7 @@ News
             {% endfor %}
         </table>
    {% else %}
-       <h2>Новостей нет!</h2>
+       <h2>Ничего не найдено</h2>
    {% endif %}
 
     {% if page_obj.has_previous %}
