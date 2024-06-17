@@ -1,0 +1,64 @@
+from News.models import *
+
+# 1
+user1 = User.objects.create_user(username='First_user')
+user2 = User.objects.create_user(username='Second_user')
+
+#2
+Author.objects.create(author_user=user1)
+Author.objects.create(author_user=user2)
+
+#3
+Category.objects.create(category_name='Sport')
+Category.objects.create(category_name='Science')
+Category.objects.create(category_name='Economics')
+Category.objects.create(category_name='Culture')
+
+#4
+Post.objects.create(post_author=Author.objects.get(id=1), content_category='AR', content_title='First article title', content_text='First article text')
+Post.objects.create(post_author=Author.objects.get(id=2), content_category='AR', content_title='Second article title', content_text='Second article text')
+Post.objects.create(post_author=Author.objects.get(id=1), content_category='NE', content_title='First news title', content_text='First news text')
+
+#5
+Post.objects.get(id=1).post_category.add(Category.objects.get(id=1))
+Post.objects.get(id=2).post_category.add(Category.objects.get(id=2))
+Post.objects.get(id=3).post_category.add(Category.objects.get(id=3))
+Post.objects.get(id=3).post_category.add(Category.objects.get(id=4))
+
+#6
+Comment.objects.create(comment_post=Post.objects.get(id=1), comment_user=Author.objects.get(id=1).author_user, comment_text='First comment text')
+Comment.objects.create(comment_post=Post.objects.get(id=2), comment_user=Author.objects.get(id=2).author_user, comment_text='Second comment text')
+Comment.objects.create(comment_post=Post.objects.get(id=3), comment_user=Author.objects.get(id=1).author_user, comment_text='Third comment text')
+Comment.objects.create(comment_post=Post.objects.get(id=3), comment_user=Author.objects.get(id=2).author_user, comment_text='Fourth comment text')
+
+#7
+Post.objects.get(id=1).dislike()
+Post.objects.get(id=2).dislike()
+Post.objects.get(id=3).like()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=3).dislike()
+Comment.objects.get(id=4).like()
+
+#8
+Author.objects.get(id=1).update_rating()
+Author.objects.get(id=2).update_rating()
+
+#9
+best_user = Author.objects.order_by('-author_rating')[:1]
+for i in best_user:
+	print(f'username : {i.author_user.username}, rating : {i.author_rating}')
+
+#10
+best_post = Post.objects.order_by('-content_rating')[:1]
+for i in best_post:
+	print(f'date : {i.date_create}, author : {i.post_author.author_user.username}, rating : {i.content_rating}, title : {i.content_title}, preview : {Post.objects.get(id=i.id).preview()}')
+
+#11
+for i in best_post:
+	best_post_id=i.id
+
+best_post_comments = Comment.objects.all()
+for i in best_post_comments:
+	if i.comment_post_id==best_post_id:
+		print(f'date : {i.date_create}, comment author : {i.comment_user.username}, rating : {i.comment_rating}, text : {i.comment_text}')
