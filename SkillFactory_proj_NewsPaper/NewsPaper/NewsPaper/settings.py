@@ -166,6 +166,8 @@ EMAIL_HOST_PASSWORD = 'testtesttest'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
+ADMINS = [("Tamplier", "test@yandex.ru")]
+
 DEFAULT_FROM_EMAIL = 'test@yandex.ru'
 
 SERVER_EMAIL = 'test@yandex.ru'
@@ -246,14 +248,12 @@ LOGGING = {
         },
         'file_errors': {
             'level': 'ERROR',
-            'filters': ['require_debug_true'],
             'class': 'logging.FileHandler',
             'filename': 'logs/errors.log',
             'formatter': 'detailed',
         },
         'file_security': {
             'level': 'DEBUG',
-            'filters': ['require_debug_true'],
             'class': 'logging.FileHandler',
             'filename': 'logs/security.log',
             'formatter': 'general',
